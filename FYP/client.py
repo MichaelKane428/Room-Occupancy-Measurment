@@ -10,7 +10,7 @@ from matplotlib import image as image
 import easygui
 import requests
 import base64
-class roomOccupancy():
+class client():
 	
 	
 	
@@ -28,6 +28,15 @@ class roomOccupancy():
 			print r.text
 		finally:
 			fin.close()
+			
+	def postImage(self):
+		pass
+		
+	def findPeople(self):
+		pass
+		
+	def countPeople(self):
+		pass
 
 if __name__ == "__main__":
 	result = roomOccupancy()

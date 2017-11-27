@@ -25,6 +25,27 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app)
 
+def login():
+    pass
+	
+def gallery():
+    pass
+
+def encryptPassword():
+    pass
+	
+def Register():
+    pass
+	
+def saveImage():
+    pass
+	
+def pullImage():
+    pass
+	
+def getStatistics():
+    pass
+
 def allowedFile(filename):
     return filename[-3:].lower() in ALLOWED_EXTENSIONS
 
