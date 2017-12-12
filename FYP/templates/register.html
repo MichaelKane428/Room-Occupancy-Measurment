@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+    <div>
+        <form action="" class="registrationForm" method="post" enctype=multipart/form-data>
+            <input type="text" name="username" placeholder="Username" value="{{request.form.username}}">
+            <input type="password" name="password" placeholder="Password" value="{{request.form.password}}">
+                        <input type="password" name="confirmpassword" placeholder="Confirm Password" value="{{request.form.confirmpassword}}">
+            <input type="text" name="email" placeholder="Email" value="{{request.form.email}}">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+</html>
