@@ -33,35 +33,28 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app)
 
 
-
-
-
-
 def allowedFile(filename):
     return filename[-3:].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
     return render_template("home.html")
 
 
-@app.route("/upload", methods=['GET', 'POST'])
+@app.route("/upload/", methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        print("We made it to step one")
         file = request.files['file']
-        print("We made it to step one.5")
         if file and allowedFile(file.filename):
-            print("We made it to step two")
             filename = file.filename
             print(filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            print("We made it boys")
             return '''<p> it worked</p>'''
     return '''
   <!doctype html>
   <title>Upload new File</title>
-  <h1>UPload new File</h1>
+  <h1>Upload new File</h1>
   <form action="" method=post enctype=multipart/form-data>
   <input type=file name=file>
   <input type=submit value=Upload>
@@ -101,12 +94,48 @@ def login():
         return str(e)
 
 
-def gallery():
-    pass
-
-
 @app.route("/register/", methods=['GET', 'POST'])
 def register():
+    error = ''
+    try:
+        if request.method == 'POST':
+            dbcursor, conn = db.login_connection()
+
+            username = request.form['username']
+            password = request.form['password']
+            confirmpassword = request.form['confirmpassword']
+            email = request.form['email']
+            if password == confirmpassword:
+                query = dbcursor.execute("select * from login_details where username = (%s)", (username,))
+                if query > 0:
+
+                    dbcursor.close()
+                    conn.close()
+                    gc.collect()
+                    return render_template("register.html")
+
+                else:
+                    query = dbcursor.execute(
+                        "insert into login_details (username, password, email) values ((%s), (%s), (%s))",
+                        (username, password, email))
+                    conn.commit()
+                    dbcursor.close()
+                    conn.close()
+                    gc.collect()
+                    session['Logged_in'] = True
+                    session['user'] = username
+                return redirect(url_for("home"))
+            else:
+                print("passwords do not match please try again")
+                return redirect(url_for("register"))
+        return render_template("register.html", error=error)
+
+    except Exception as e:
+        return str(e)
+
+
+@app.route("/gallery/", methods=['GET', 'POST'])
+def gallery():
 
     error = ''
     try:
