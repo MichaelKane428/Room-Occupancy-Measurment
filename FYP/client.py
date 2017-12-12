@@ -11,11 +11,8 @@ import easygui
 import requests
 import base64
 class client():
-	
-	
-	
 	def getImage(self):
-		url = "http://78.18.97.94:5000/"
+		url = "http://michaelkanefyp.dynu.net:5000/"
 		image = cv2.imread('test2.jpg')
 		cv2.imwrite('test.jpg', image)
 		
@@ -25,7 +22,7 @@ class client():
 		
 		try:
 			r = requests.post(url, files=files)
-			print r.text
+			print (r.text)
 		finally:
 			fin.close()
 			
@@ -39,7 +36,7 @@ class client():
 		pass
 
 if __name__ == "__main__":
-	result = roomOccupancy()
+	result = client()
 	result.getImage()
 
 #http://docs.python-requests.org/en/latest/user/quickstart/#post-a-multipart-encoded-file
