@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--https://www.w3schools.com/css/css_image_gallery.asp-->
+    <link rel="stylesheet" href="{{ url_for('static',filename='stylesheet.css') }}">
+    <meta charset="UTF-8">
+    <title>Gallery</title>
+</head>
+<body>
+    <div class="container">
+        <div class="topnav" id="myTopnav">
+          <a href="http://michaelkanefyp.dynu.net:5000">Home</a>
+          <a href="http://michaelkanefyp.dynu.net:5000/login/">Login</a>
+          <a href="http://michaelkanefyp.dynu.net:5000/register/">Register</a>
+          <a href="http://michaelkanefyp.dynu.net:5000/upload/">Upload</a>
+            <a class="active" href="http://michaelkanefyp.dynu.net:5000/gallery/">Gallery</a>
+            <a href="http://michaelkanefyp.dynu.net:5000/logout/">Logout</a>
+        </div>
+        <div class="content">
+            <h3>Currently displaying most recent image to be posted to the server</h3>
+            <div class="gallery">
+              <a target="_blank" href="/static/uploads/test2.jpg">
+                <img src="/static/uploads/test2.jpg" alt="image" width="300" height="200">
+              </a>
+              <div class="desc">Add a description of the image here</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

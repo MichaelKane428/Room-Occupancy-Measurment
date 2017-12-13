@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='stylesheet.css') }}">
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
 <body>
-    <div>
-        <form action="" class="registrationForm" method="post" enctype=multipart/form-data>
-            <input type="text" name="username" placeholder="Username" value="{{request.form.username}}">
-            <input type="password" name="password" placeholder="Password" value="{{request.form.password}}">
-            <input type="submit" value="Login">
-        </form>
+    <div class="container">
+        <div class="topnav" id="myTopnav">
+          <a href="http://michaelkanefyp.dynu.net:5000">Home</a>
+          <a class="active" href="http://michaelkanefyp.dynu.net:5000/login/">Login</a>
+          <a href="http://michaelkanefyp.dynu.net:5000/register/">Register</a>
+          <a href="http://michaelkanefyp.dynu.net:5000/upload/">Upload</a>
+            <a href="http://michaelkanefyp.dynu.net:5000/gallery/">Gallery</a>
+            <a href="http://michaelkanefyp.dynu.net:5000/logout/">Logout</a>
+        </div>
+        <div class="content">
+            <h3>Fill in the boxes below to Login.</h3>
+            <form action="" class="registrationForm" method="post" enctype=multipart/form-data>
+                <br/>
+                <input type="text" name="username" placeholder="Username" value="{{request.form.username}}">
+                <br/>
+                <input type="password" name="password" placeholder="Password" value="{{request.form.password}}">
+                <br/>
+                <input type="submit" value="Login">
+                <br/>
+            </form>
+        </div>
     </div>
 </body>
 </html>

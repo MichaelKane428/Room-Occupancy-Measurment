@@ -25,7 +25,7 @@ import gc
 from flask_cors import CORS
 from FYP import databaseconnection as db
 
-UPLOAD_FOLDER = 'D:\\Python\\Room-Occupancy-Measurment\\FYP\\Uploads\\'
+UPLOAD_FOLDER = 'D:\\Python\\Room-Occupancy-Measurment\\FYP\\static\\Uploads\\'
 ALLOWED_EXTENSIONS = ['jpg']
 app = Flask(__name__)
 app.secret_key = 'Mikey1ne'
@@ -37,7 +37,7 @@ def allowedFile(filename):
     return filename[-3:].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=['GET'])
 def home():
     return render_template("home.html")
 
@@ -50,16 +50,8 @@ def upload():
             filename = file.filename
             print(filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return '''<p> it worked</p>'''
-    return '''
-  <!doctype html>
-  <title>Upload new File</title>
-  <h1>Upload new File</h1>
-  <form action="" method=post enctype=multipart/form-data>
-  <input type=file name=file>
-  <input type=submit value=Upload>
-  </form>
-  '''
+            return redirect(url_for("gallery"))
+    return render_template("uploadImage.html")
 
 
 @app.route("/login/", methods=['GET', 'POST'])
@@ -134,37 +126,18 @@ def register():
         return str(e)
 
 
-@app.route("/gallery/", methods=['GET', 'POST'])
+@app.route("/gallery/", methods=['GET'])
 def gallery():
-
     error = ''
-    try:
-        if request.method == 'POST':
-            dbcursor, conn = db.login_connection()
+    return render_template("gallery.html", error=error)
 
-            username = request.form['username']
-            password = request.form['password']
-            confirmpassword = request.form['confirmpassword']
-            email = request.form['email']
-            if password == confirmpassword:
-                query = dbcursor.execute("insert into login_details (username, password, email) values ((%s), (%s), (%s))",
-                                         (username, password, email))
-                conn.commit()
 
-                dbcursor.close()
-                conn.close()
-                gc.collect()
-                session['Logged_in'] = True
-                session['user'] = username
-                return redirect(url_for("home"))
-            else:
-                print("passwords do not match please try again")
-                return redirect(url_for("register"))
-        return render_template("register.html", error=error)
-
-    except Exception as e:
-        return str(e)
-
+@app.route("/logout/", methods=['GET', 'POST'])
+def logout():
+    error = ''
+    if request.method == 'POST':
+        pass
+    return render_template("logout.html", error=error)
 
 if __name__ == "__main__":
     app.run(host="192.168.0.9", port=5000)

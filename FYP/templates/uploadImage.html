@@ -1,10 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='stylesheet.css') }}">
     <meta charset="UTF-8">
     <title>Upload</title>
 </head>
 <body>
-
+    <div class="container">
+        <div class="topnav" id="myTopnav">
+          <a  href="http://michaelkanefyp.dynu.net:5000">Home</a>
+          <a href="http://michaelkanefyp.dynu.net:5000/login/">Login</a>
+          <a href="http://michaelkanefyp.dynu.net:5000/register/">Register</a>
+          <a class="active" href="http://michaelkanefyp.dynu.net:5000/upload/">Upload</a>
+            <a href="http://michaelkanefyp.dynu.net:5000/gallery/">Gallery</a>
+            <a href="http://michaelkanefyp.dynu.net:5000/logout/">Logout</a>
+        </div>
+        <div class="content">
+            <h1>Upload new File</h1>
+            <form action="" method=post enctype=multipart/form-data>
+                <input type=file name=file>
+                <input type=submit value=Upload>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
