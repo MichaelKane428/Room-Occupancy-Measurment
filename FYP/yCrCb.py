@@ -35,14 +35,17 @@ class test():
 			# if key == ord("q"):
 				# break
 	
+	# http://opencv-users.1802565.n2.nabble.com/how-to-do-skin-detection-using-ycbcr-color-space-opencv-c-code-in-ubuntu-td7584779.html
+	# http://academic.aua.am/Skhachat/Public/Papers%20on%20Face%20Detection/Survey%20on%20Skin%20Color%20Techniques.pdf
+	# https://docs.opencv.org/2.4/modules/imgproc/doc/miscellaneous_transformations.html
 	# https://www.learnopencv.com/color-spaces-in-opencv-cpp-python/
 	def findperson(self, image):
-		higher = np.array([255,255,255])
-		lower = np.array([0,48,80])
+		higher = np.array([255,185,135])
+		lower = np.array([80,135,85])
 		
-		HSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+		yCrCb = cv2.cvtColor(image, cv2.COLOR_BGR2YCrCb)
 		
-		tone = cv2.inRange(HSV, lower, higher)
+		tone = cv2.inRange(yCrCb, lower, higher)
 		shape = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(40,40))
 		erosion = cv2.erode(tone, shape)
 		dilation = cv2.dilate(erosion, shape)
