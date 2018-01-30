@@ -22,22 +22,23 @@ class test():
 			test = cv2.drawContours(image, contours, -1, (0,255,0), 3)
 			
 			cv2.imwrite('ROI.jpg', test)
+			cv2.imwrite('skin.jpg', ROI)
 		except:
 			print("User failed to select an image.")
-		while True:
-			# Showing an image on the screen (OpenCV):
-			cv2.imshow("Person", test)
-			key = cv2.waitKey(0)
+		# while True:
+			##Showing an image on the screen (OpenCV):
+			# cv2.imshow("Person", test)
+			# key = cv2.waitKey(0)
 
-			# if the 'q' key is pressed, quit:
-			if key == ord("q"):
-				break
+			##if the 'q' key is pressed, quit:
+			# if key == ord("q"):
+				# break
 		
 	def findperson(self, image):
 		# Create a grayscale mask for the signature, then use morphology to isolate part of the signature. 
 		grayScale = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 		grayScaleHistogram = cv2.equalizeHist(grayScale)
-		threshold = cv2.threshold(grayScaleHistogram, 200, 255, cv2.THRESH_BINARY)[1]
+		threshold = cv2.threshold(grayScaleHistogram, 150, 160, cv2.THRESH_BINARY)[1]
 		threshold = cv2.bitwise_not(threshold)
 		
 		shape = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(10,10))
