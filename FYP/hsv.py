@@ -22,6 +22,8 @@ class test():
 			person,contours,_ = cv2.findContours(person,mode=cv2.RETR_EXTERNAL,method=cv2.CHAIN_APPROX_NONE)
 			test = cv2.drawContours(image, contours, -1, (0,255,0), 3)
 			
+			print(len(contours))
+			
 			cv2.imwrite('ROI.jpg', test)
 			cv2.imwrite('skin.jpg', ROI)
 		except:
