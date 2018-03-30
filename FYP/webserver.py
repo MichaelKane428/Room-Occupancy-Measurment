@@ -18,6 +18,8 @@
     https://www.youtube.com/watch?v=PiphizBQJho&index=16&list=PLQVvvaa0QuDc_owjTbIY4rbgXOFkUYOUB
     https://www.youtube.com/playlist?list=PLQVvvaa0QuDc_owjTbIY4rbgXOFkUYOUB
     https://stackoverflow.com/questions/27539309/how-do-i-create-a-link-to-another-html-page
+    https://dev.mysql.com/doc/refman/5.7/en/json-creation-functions.html#function_json-object
+
 '''
 import os
 from flask import Flask, render_template, request, url_for, flash, session, redirect
@@ -129,7 +131,26 @@ def register():
 @app.route("/gallery/", methods=['GET'])
 def gallery():
     error = ''
-    return render_template("gallery.html", error=error)
+
+    try:
+
+        dbcursor, conn = db.login_connection()
+
+        images = dbcursor.execute("select json_object(image_id, path) from store_image")
+        if images > 0:
+            dbcursor.close()
+            conn.close()
+            gc.collect()
+            return render_template("gallery.html", images=images, error=error)
+        else:
+            print("Query failed on Gallery image load.")
+            dbcursor.close()
+            conn.close()
+            gc.collect()
+            return render_template("gallery.html", error=error)
+
+    except Exception as e:
+        return str(e)
 
 
 @app.route("/logout/", methods=['GET', 'POST'])
@@ -140,6 +161,7 @@ def logout():
     return render_template("logout.html", error=error)
 
 if __name__ == "__main__":
-    app.run(host="192.168.0.9", port=5000)
+    #app.run(host="192.168.0.9", port=5000)
+    app.run(host="127.0.0.1", port=5000)
 
 

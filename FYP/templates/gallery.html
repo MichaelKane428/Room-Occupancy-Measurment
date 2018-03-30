@@ -3,8 +3,10 @@
 <head>
     <!--https://www.w3schools.com/css/css_image_gallery.asp-->
     <link rel="stylesheet" href="{{ url_for('static',filename='stylesheet.css') }}">
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <title>Gallery</title>
+
 </head>
 <body>
     <div class="container">
@@ -19,7 +21,7 @@
         <div class="content">
             <h3>Currently displaying most recent image to be posted to the server</h3>
             <div class="gallery">
-              <a target="_blank" href="/static/uploads/test2.jpg">
+              <a target="_blank" href="/static/uploads/">
                 <img src="/static/uploads/test2.jpg" alt="image" width="300" height="200">
               </a>
               <div class="desc">Add a description of the image here</div>
@@ -27,4 +29,7 @@
         </div>
     </div>
 </body>
+
+<script src="{{ url_for('static',filename='gallery.js') }}"></script>
+
 </html>
