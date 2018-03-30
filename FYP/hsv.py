@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 from matplotlib import image as image
 import easygui
 
-class test():	
+class hsv():	
 	def getImage(self):
 		try:
 			#Opening an image from a file:
@@ -24,23 +24,24 @@ class test():
 			
 			print(len(contours))
 			
+			face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+			gray = cv2.cvtColor(ROI, cv2.COLOR_BGR2GRAY)
+			faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+			print(len(faces))
+			for (x,y,w,h) in faces:
+				ROI = cv2.rectangle(ROI,(x,y),(x+w,y+h),(255,0,0),2)
+
+			
 			cv2.imwrite('ROI.jpg', test)
 			cv2.imwrite('skin.jpg', ROI)
 		except:
 			print("User failed to select an image.")
-		# while True:
-			##Showing an image on the screen (OpenCV):
-			# cv2.imshow("Person", test)
-			# key = cv2.waitKey(0)
 
-			##if the 'q' key is pressed, quit:
-			# if key == ord("q"):
-				# break
 	
 	# https://www.learnopencv.com/color-spaces-in-opencv-cpp-python/
 	def findperson(self, image):
 		higher = np.array([255,255,255])
-		lower = np.array([0,48,80])
+		lower = np.array([0,40,80])
 		
 		HSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 		
@@ -54,6 +55,6 @@ class test():
 
 		
 if __name__ == "__main__":
-	person = test()
+	person = hsv()
 	person.getImage()
 	
