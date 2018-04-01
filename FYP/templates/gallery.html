@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--https://www.w3schools.com/css/css_image_gallery.asp-->
     <link rel="stylesheet" href="{{ url_for('static',filename='stylesheet.css') }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+    <meta id="path_to_images" data-paths="{{ images }}">
     <title>Gallery</title>
 
 </head>
@@ -24,6 +26,7 @@
               <a target="_blank" href="/static/uploads/">
                 <img src="/static/uploads/test2.jpg" alt="image" width="300" height="200">
               </a>
+                {{ images }}
               <div class="desc">Add a description of the image here</div>
             </div>
         </div>

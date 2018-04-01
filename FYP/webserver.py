@@ -19,6 +19,7 @@
     https://www.youtube.com/playlist?list=PLQVvvaa0QuDc_owjTbIY4rbgXOFkUYOUB
     https://stackoverflow.com/questions/27539309/how-do-i-create-a-link-to-another-html-page
     https://dev.mysql.com/doc/refman/5.7/en/json-creation-functions.html#function_json-object
+    https://www.makeuseof.com/tag/python-javascript-communicate-json/
 
 '''
 import os
@@ -134,19 +135,19 @@ def gallery():
 
     try:
 
-        dbcursor, conn = db.login_connection()
+        #dbcursor, conn = db.login_connection()
 
-        images = dbcursor.execute("select json_object(image_id, path) from store_image")
-        if images > 0:
-            dbcursor.close()
-            conn.close()
-            gc.collect()
+        images =[{'number': '1', 'path': '/c/test'},{'number': '2', 'path': '/c/test2'}] #dbcursor.execute("select json_object(image_id, path) from store_image")
+        if len(images) > 0:
+            #dbcursor.close()
+            #conn.close()
+            #gc.collect()
             return render_template("gallery.html", images=images, error=error)
         else:
             print("Query failed on Gallery image load.")
-            dbcursor.close()
-            conn.close()
-            gc.collect()
+            #dbcursor.close()
+            #conn.close()
+            #gc.collect()
             return render_template("gallery.html", error=error)
 
     except Exception as e:
