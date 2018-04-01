@@ -8,3 +8,10 @@ function getImages(){
     paths = $('#path_to_images').data();
 }
 getImages()
+
+/*
+<a target="_blank" href="/static/uploads/">
+    <img src="/static/uploads/test2.jpg" alt="image" width="300" height="200">
+</a>
+
+*/
