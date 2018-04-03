@@ -20,6 +20,8 @@
     https://stackoverflow.com/questions/27539309/how-do-i-create-a-link-to-another-html-page
     https://dev.mysql.com/doc/refman/5.7/en/json-creation-functions.html#function_json-object
     https://www.makeuseof.com/tag/python-javascript-communicate-json/
+    http://jquery.malsup.com/cycle2/demo/
+    http://jquery.malsup.com/cycle2/demo/basic.php
 
 '''
 import os

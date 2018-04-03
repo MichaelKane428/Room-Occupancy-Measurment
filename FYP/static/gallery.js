@@ -6,6 +6,7 @@ let paths = [];
 //https://stackoverflow.com/questions/21626048/unable-to-pass-jinja2-variables-into-javascript-snippet
 function getImages(){
     paths = $('#path_to_images').data();
+    $('.cycle-slideshow').html("<img src='/static/uploads/" + "daisychain.jpg'>");
 }
 getImages()
 
