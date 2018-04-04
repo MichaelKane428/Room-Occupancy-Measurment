@@ -24,6 +24,7 @@
     http://jquery.malsup.com/cycle2/demo/basic.php
     https://stackoverflow.com/questions/4714975/how-to-select-the-last-10-rows-of-an-sql-table-which-has-no-id-field/14057040
     http://developer.rhino3d.com/guides/rhinopython/python-xml-json/
+    https://stackoverflow.com/questions/11875770/how-to-overcome-datetime-datetime-not-json-serializable
 
 '''
 import os

@@ -10,22 +10,19 @@ let paths = [];
 function getImages(){
     latestimages = $('#path_to_latestimages').data();
     datetimeimages = $('#path_to_datetimeimages').data();
-/*
-    for (let i=0; i < latestimages.length; i++){
-        $("<img src='/static/uploads/" + paths[i] + ".jpg'>").appendTo('.cycle-slideshow');
+
+    for (let i=0; i < latestimages.paths.length; i++){
+        temp = latestimages.paths[i].path;
+        image = temp.substring(55);
+        test = $("<img src='/static/uploads/" + image + "'>").appendTo('.cycle-slideshow');
     }
 
-    for (let i=0; i < datetimeimages.length; i++){
-        $("<img src='/static/uploads/" + paths[i] + ".jpg'>").appendTo('.slideshow');
+    for (let i=0; i < datetimeimages.paths.length; i++){
+        temp = datetimeimages.paths[i].path;
+        image = temp.substring(55);
+        test = $("<img src='/static/uploads/" + image + "'>").appendTo('.slideshow');
     }
     $('.slideshow').cycle();
-    */
+
 }
 getImages()
-
-/*
-<a target="_blank" href="/static/uploads/">
-    <img src="/static/uploads/test2.jpg" alt="image" width="300" height="200">
-</a>
-
-*/
