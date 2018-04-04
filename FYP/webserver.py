@@ -22,6 +22,8 @@
     https://www.makeuseof.com/tag/python-javascript-communicate-json/
     http://jquery.malsup.com/cycle2/demo/
     http://jquery.malsup.com/cycle2/demo/basic.php
+    https://stackoverflow.com/questions/4714975/how-to-select-the-last-10-rows-of-an-sql-table-which-has-no-id-field/14057040
+    http://developer.rhino3d.com/guides/rhinopython/python-xml-json/
 
 '''
 import os
@@ -29,6 +31,7 @@ from flask import Flask, render_template, request, url_for, flash, session, redi
 import gc
 from flask_cors import CORS
 from FYP import databaseconnection as db
+import json
 
 UPLOAD_FOLDER = 'D:\\Python\\Room-Occupancy-Measurment\\FYP\\static\\Uploads\\'
 ALLOWED_EXTENSIONS = ['jpg']
@@ -52,6 +55,13 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
         if file and allowedFile(file.filename):
+            dbcursor, conn = db.login_connection()
+
+            username = request.form['username']
+            password = request.form['password']
+
+            query = dbcursor.execute("insert into store_image (path, date_time, number_of_people) values ((%s), (%s), (%s))",
+                                     (username, password))
             filename = file.filename
             print(filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -131,26 +141,54 @@ def register():
         return str(e)
 
 
-@app.route("/gallery/", methods=['GET'])
+@app.route("/gallery/", methods=['GET', 'POST'])
 def gallery():
     error = ''
 
     try:
-
-        #dbcursor, conn = db.login_connection()
-
-        images =[{'number': '1', 'path': '/c/test'},{'number': '2', 'path': '/c/test2'}] #dbcursor.execute("select json_object(image_id, path) from store_image")
-        if len(images) > 0:
-            #dbcursor.close()
-            #conn.close()
-            #gc.collect()
-            return render_template("gallery.html", images=images, error=error)
+        if request.method == 'POST':
+            dbcursor, conn = db.login_connection()
+            query1 = dbcursor.execute("SELECT * FROM store_image ORDER BY date_time DESC LIMIT 5")
+            latestimages = dbcursor.fetchall()
+            query2 = dbcursor.execute("select * from store_image WHERE date_time BETWEEN '%s' AND '%s'")
+            datetimeimages = dbcursor.fetchall()
+            if query1 > 0:
+                dbcursor.close()
+                conn.close()
+                gc.collect()
+                return render_template("gallery.html", latestimages=latestimages, datetimeimages=datetimeimages, error=error)
+            else:
+                print("Query failed on Gallery image load.")
+                dbcursor.close()
+                conn.close()
+                gc.collect()
+                return render_template("gallery.html", error=error)
         else:
-            print("Query failed on Gallery image load.")
-            #dbcursor.close()
-            #conn.close()
-            #gc.collect()
-            return render_template("gallery.html", error=error)
+            dbcursor, conn = db.login_connection()
+
+            query1 = dbcursor.execute("SELECT * FROM store_image ORDER BY date_time DESC LIMIT 5")
+            latestimages = []
+            columns = [column[0] for column in dbcursor.description]
+            for row in dbcursor.fetchall():
+                latestimages.append(dict(zip(columns, row)))
+
+            query2 = dbcursor.execute("select * from store_image WHERE date_time BETWEEN '2018-04-04 15:00:00' AND '2018-04-04 15:59:59'")
+            datetimeimages = []
+            columns = [column[0] for column in dbcursor.description]
+            for row in dbcursor.fetchall():
+                datetimeimages.append(dict(zip(columns, row)))
+
+            if query1 > 0:
+                dbcursor.close()
+                conn.close()
+                gc.collect()
+                return render_template("gallery.html", latestimages=json.dumps(latestimages, default=str), datetimeimages=json.dumps(datetimeimages, default=str), error=error)
+            else:
+                print("Query failed on Gallery image load.")
+                dbcursor.close()
+                conn.close()
+                gc.collect()
+                return render_template("gallery.html", error=error)
 
     except Exception as e:
         return str(e)

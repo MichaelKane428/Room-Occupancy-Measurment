@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='stylesheet.css') }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <meta id="path_to_images" data-paths="{{ images }}">
+    <meta id="path_to_latestimages" data-paths="{{ latestimages }}">
+    <meta id="path_to_datetimeimages" data-paths="{{ datetimeimages }}">
     <title>Gallery</title>
 
 </head>
@@ -24,7 +25,8 @@
         <div class="content">
             <div class="row">
                 <div class="slideshows">
-                    <p style="margin-bottom: 40px;"><b>Currently displaying the last hours images.</b></p>
+                    <p><b>Currently displaying the last hours images.</b></p>
+                    <button id="refresh">Refresh</button>
                     <div class="cycle-slideshow"
                         data-cycle-fx="scrollHorz"
                         data-cycle-timeout="0"
@@ -36,7 +38,7 @@
                 </div>
                 <div class="slideshows">
                     <p><b>Select A date and time: </b></p>
-                    <input id="datepicker" type=datetime-local>
+                    <input id="datepicker" type=datetime-local value="2018-04-04T15:15">
                     <button id="submit">Submit</button>
                     <div class="slideshow"
                         data-cycle-fx="scrollHorz"

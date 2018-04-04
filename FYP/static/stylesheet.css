@@ -4,6 +4,10 @@ body {
     background-color: #0099ff;
 }
 
+#refresh{
+    margin-bottom: 3px;
+}
+
 .row{
     overflow:hidden;
 }

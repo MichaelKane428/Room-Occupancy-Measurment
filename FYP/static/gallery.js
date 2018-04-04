@@ -8,13 +8,18 @@ let paths = [];
 //http://api.jquery.com/appendto/
 //https://stackoverflow.com/questions/19504018/show-seconds-on-input-type-date-local-in-chrome
 function getImages(){
-    paths = $('#path_to_images').data();
-    paths = ['breadboard', 'Goals', 'daisychain'];
-    for (let i=0; i < paths.length; i++){
+    latestimages = $('#path_to_latestimages').data();
+    datetimeimages = $('#path_to_datetimeimages').data();
+/*
+    for (let i=0; i < latestimages.length; i++){
         $("<img src='/static/uploads/" + paths[i] + ".jpg'>").appendTo('.cycle-slideshow');
+    }
+
+    for (let i=0; i < datetimeimages.length; i++){
         $("<img src='/static/uploads/" + paths[i] + ".jpg'>").appendTo('.slideshow');
     }
     $('.slideshow').cycle();
+    */
 }
 getImages()
 
