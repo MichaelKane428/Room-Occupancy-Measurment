@@ -145,50 +145,25 @@ def register():
 @app.route("/gallery/", methods=['GET', 'POST'])
 def gallery():
     error = ''
-
+    datetime = ""
     try:
         if request.method == 'POST':
-            dbcursor, conn = db.login_connection()
-            query1 = dbcursor.execute("SELECT * FROM store_image ORDER BY date_time DESC LIMIT 5")
-            latestimages = dbcursor.fetchall()
-            query2 = dbcursor.execute("select * from store_image WHERE date_time BETWEEN '%s' AND '%s'")
-            datetimeimages = dbcursor.fetchall()
-            if query1 > 0:
-                dbcursor.close()
-                conn.close()
-                gc.collect()
-                return render_template("gallery.html", latestimages=latestimages, datetimeimages=datetimeimages, error=error)
-            else:
-                print("Query failed on Gallery image load.")
-                dbcursor.close()
-                conn.close()
-                gc.collect()
-                return render_template("gallery.html", error=error)
-        else:
-            dbcursor, conn = db.login_connection()
-
-            query1 = dbcursor.execute("SELECT * FROM store_image ORDER BY date_time DESC LIMIT 5")
-            latestimages = []
-            columns = [column[0] for column in dbcursor.description]
-            for row in dbcursor.fetchall():
-                latestimages.append(dict(zip(columns, row)))
-
-            query2 = dbcursor.execute("select * from store_image WHERE date_time BETWEEN '2018-04-04 15:00:00' AND '2018-04-04 15:59:59'")
-            datetimeimages = []
-            columns = [column[0] for column in dbcursor.description]
-            for row in dbcursor.fetchall():
-                datetimeimages.append(dict(zip(columns, row)))
+            temp = request.form['datepicker']
+            datetime = temp.replace("T", " ")
+            query1, query2, latestimages, datetimeimages = createquery(datetime)
 
             if query1 > 0:
-                dbcursor.close()
-                conn.close()
-                gc.collect()
                 return render_template("gallery.html", latestimages=json.dumps(latestimages, default=str), datetimeimages=json.dumps(datetimeimages, default=str), error=error)
             else:
                 print("Query failed on Gallery image load.")
-                dbcursor.close()
-                conn.close()
-                gc.collect()
+                return render_template("gallery.html", error=error)
+        else:
+            query1, query2, latestimages, datetimeimages = createquery(datetime)
+
+            if query1 > 0:
+                return render_template("gallery.html", latestimages=json.dumps(latestimages, default=str), datetimeimages=json.dumps(datetimeimages, default=str), error=error)
+            else:
+                print("Query failed on Gallery image load.")
                 return render_template("gallery.html", error=error)
 
     except Exception as e:
@@ -201,6 +176,32 @@ def logout():
     if request.method == 'POST':
         pass
     return render_template("logout.html", error=error)
+
+def createquery(datetime):
+    if datetime == "":
+        datetime = '2018-04-04 15'
+        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59'"
+    else:
+        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59'"
+
+    dbcursor, conn = db.login_connection()
+
+    query1 = dbcursor.execute("SELECT * FROM store_image ORDER BY date_time DESC LIMIT 5")
+    latestimages = []
+    columns = [column[0] for column in dbcursor.description]
+    for row in dbcursor.fetchall():
+        latestimages.append(dict(zip(columns, row)))
+
+    query2 = dbcursor.execute(query)
+    datetimeimages = []
+    columns = [column[0] for column in dbcursor.description]
+    for row in dbcursor.fetchall():
+        datetimeimages.append(dict(zip(columns, row)))
+
+    dbcursor.close()
+    conn.close()
+    gc.collect()
+    return query1, query2, latestimages, datetimeimages
 
 if __name__ == "__main__":
     #app.run(host="192.168.0.9", port=5000)

@@ -26,7 +26,6 @@
             <div class="row">
                 <div class="slideshows">
                     <p><b>Currently displaying the last hours images.</b></p>
-                    <button id="refresh">Refresh</button>
                     <div class="cycle-slideshow"
                         data-cycle-fx="scrollHorz"
                         data-cycle-timeout="0"
@@ -38,8 +37,11 @@
                 </div>
                 <div class="slideshows">
                     <p><b>Select A date and time: </b></p>
-                    <input id="datepicker" type=datetime-local value="2018-04-04T15:15">
-                    <button id="submit">Submit</button>
+                    <form action="" method=post enctype=multipart/form-data>
+                        <input id="datepicker" type=datetime-local name="datepicker" value="2018-04-04T15:15">
+                        <input id="submittime" type=submit value=Submit>
+                    </form>
+
                     <div class="slideshow"
                         data-cycle-fx="scrollHorz"
                         data-cycle-timeout="0"

@@ -4,9 +4,6 @@ body {
     background-color: #0099ff;
 }
 
-#refresh{
-    margin-bottom: 3px;
-}
 
 .row{
     overflow:hidden;
@@ -44,6 +41,7 @@ body {
     height: 25%;
     border: 1px solid black;
     background-color: white;
+    margin-top: 40px;
 
 }
 
