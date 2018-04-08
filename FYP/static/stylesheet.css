@@ -36,6 +36,19 @@ body {
 
 }
 
+.textSlideshow {
+    width: 99%;
+    height: 10%;
+    background-color: white;
+}
+
+.latestTextSlideshow {
+    width: 99%;
+    height: 10%;
+    background-color: white;
+
+}
+
 .cycle-slideshow{
     width: 99%;
     height: 25%;

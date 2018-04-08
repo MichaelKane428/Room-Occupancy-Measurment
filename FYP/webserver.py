@@ -150,18 +150,20 @@ def gallery():
         if request.method == 'POST':
             temp = request.form['datepicker']
             datetime = temp.replace("T", " ")
-            query1, query2, latestimages, datetimeimages = createquery(datetime)
+            query1, query2, latestImages, datetimeImages = createquery(datetime)
 
-            if query1 > 0:
-                return render_template("gallery.html", latestimages=json.dumps(latestimages, default=str), datetimeimages=json.dumps(datetimeimages, default=str), error=error)
+            if query1 > 0 and query2 > 0:
+                return render_template("gallery.html", latestimages=json.dumps(latestImages, default=str), datetimeimages=json.dumps(datetimeImages, default=str), error=error)
             else:
                 print("Query failed on Gallery image load.")
-                return render_template("gallery.html", error=error)
+                datetime = '1000-04-04 15'
+                query1, query2, latestImages, datetimeImages = createquery(datetime)
+                return render_template("gallery.html", latestimages=json.dumps(latestImages, default=str), datetimeimages=json.dumps(datetimeImages, default=str), error=error)
         else:
-            query1, query2, latestimages, datetimeimages = createquery(datetime)
+            query1, query2, latestImages, datetimeImages = createquery(datetime)
 
             if query1 > 0:
-                return render_template("gallery.html", latestimages=json.dumps(latestimages, default=str), datetimeimages=json.dumps(datetimeimages, default=str), error=error)
+                return render_template("gallery.html", latestimages=json.dumps(latestImages, default=str), datetimeimages=json.dumps(datetimeImages, default=str), error=error)
             else:
                 print("Query failed on Gallery image load.")
                 return render_template("gallery.html", error=error)
@@ -180,28 +182,28 @@ def logout():
 def createquery(datetime):
     if datetime == "":
         datetime = '2018-04-04 15'
-        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59'"
+        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59' ORDER BY date_time DESC LIMIT 5"
     else:
-        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59'"
+        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59' ORDER BY date_time DESC LIMIT 5"
 
     dbcursor, conn = db.login_connection()
 
     query1 = dbcursor.execute("SELECT * FROM store_image ORDER BY date_time DESC LIMIT 5")
-    latestimages = []
+    latestImages = []
     columns = [column[0] for column in dbcursor.description]
     for row in dbcursor.fetchall():
-        latestimages.append(dict(zip(columns, row)))
+        latestImages.append(dict(zip(columns, row)))
 
     query2 = dbcursor.execute(query)
-    datetimeimages = []
+    datetimeImages = []
     columns = [column[0] for column in dbcursor.description]
     for row in dbcursor.fetchall():
-        datetimeimages.append(dict(zip(columns, row)))
+        datetimeImages.append(dict(zip(columns, row)))
 
     dbcursor.close()
     conn.close()
     gc.collect()
-    return query1, query2, latestimages, datetimeimages
+    return query1, query2, latestImages, datetimeImages
 
 if __name__ == "__main__":
     #app.run(host="192.168.0.9", port=5000)
