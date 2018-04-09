@@ -15,15 +15,18 @@ import datetime
 class client():
 	def getImage(self):
 		url = "http://michaelkanefyp.dynu.net:5000/upload/"
-		date = str(datetime.datetime.now())
+		temp = str(datetime.datetime.now())
+		date = temp.replace(":", "-")
+		date = date.replace(" ", "_")
+		date = date[0:19]
 		image = cv2.imread('test2.jpg')
 		cv2.imwrite(date +'.jpg', image)
 		fin = open(date +'.jpg', "rb")
-		encoded_image = base64.b64encode(fin.read())
-		files={'file': encoded_image}
+		#encoded_image = base64.b64encode(fin.read())
+		files={'file': fin}
 
 		try:
-			r = requests.post(url, files=files)
+			r = requests.post(url, files=files, data={'number_of_people': '700'})
 			print (r.text)
 		finally:
 			fin.close()
