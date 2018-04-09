@@ -33,6 +33,7 @@ import gc
 from flask_cors import CORS
 from FYP import databaseconnection as db
 import json
+import base64
 
 UPLOAD_FOLDER = 'D:\\Python\\Room-Occupancy-Measurment\\FYP\\static\\Uploads\\'
 ALLOWED_EXTENSIONS = ['jpg']
@@ -55,17 +56,22 @@ def home():
 def upload():
     if request.method == 'POST':
         file = request.files['file']
+        number_of_people = request.form['number_of_people']
+
+        print(file)
+        print(number_of_people)
+
         if file and allowedFile(file.filename):
             dbcursor, conn = db.login_connection()
 
-            username = request.form['username']
-            password = request.form['password']
-
-            query = dbcursor.execute("insert into store_image (path, date_time, number_of_people) values ((%s), (%s), (%s))",
-                                     (username, password))
             filename = file.filename
-            print(filename)
+            date_time = filename[0:19]
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            path = 'D:/Python/Room-Occupancy-Measurment/FYP/static/uploads/' + filename
+            query = ("insert into store_image (path, date_time, number_of_people) values ('%s', '%s', %s)", path, date_time, number_of_people)
+
+            print(query)
+
             return redirect(url_for("gallery"))
     return render_template("uploadImage.html")
 
@@ -206,7 +212,7 @@ def createquery(datetime):
     return query1, query2, latestImages, datetimeImages
 
 if __name__ == "__main__":
-    #app.run(host="192.168.0.9", port=5000)
-    app.run(host="127.0.0.1", port=5000)
+    app.run(host="192.168.0.9", port=5000)
+    #app.run(host="127.0.0.1", port=5000)
 
 
