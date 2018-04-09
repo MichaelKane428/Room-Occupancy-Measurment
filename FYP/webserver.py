@@ -65,12 +65,17 @@ def upload():
             dbcursor, conn = db.login_connection()
 
             filename = file.filename
-            date_time = filename[0:19]
+
+            date = filename[0:12]
+            time = filename[12:19].replace("-", ":")
+            date_time = date+time
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             path = 'D:/Python/Room-Occupancy-Measurment/FYP/static/uploads/' + filename
-            query = ("insert into store_image (path, date_time, number_of_people) values ('%s', '%s', %s)", path, date_time, number_of_people)
-
-            print(query)
+            dbcursor.execute("insert into store_image (path, date_time, number_of_people) values ('"+path+"', '"+date_time+"', "+number_of_people+")")
+            conn.commit()
+            dbcursor.close()
+            conn.close()
+            gc.collect()
 
             return redirect(url_for("gallery"))
     return render_template("uploadImage.html")
