@@ -2,15 +2,26 @@
 
 
 # import the necessary packages:
+# references: https://gist.github.com/yoavram/4351498
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 from matplotlib import image as image
 import easygui
+import requests
+import base64
+import datetime
 
-class hsv():	
+class client():	
 	def getImage(self):
 		try:
+		
+			url = "http://michaelkanefyp.dynu.net:5000/upload/"
+			temp = str(datetime.datetime.now())
+			date = temp.replace(":", "-")
+			date = date.replace(" ", "_")
+			date = date[0:19]
+			
 			#Opening an image from a file:
 			file = easygui.fileopenbox()
 			image = cv2.imread(file)
@@ -31,8 +42,17 @@ class hsv():
 			for (x,y,w,h) in faces:
 				ROI = cv2.rectangle(ROI,(x,y),(x+w,y+h),(255,0,0),2)
 
-			
-			cv2.imwrite('ROI.jpg', test)
+			cv2.imwrite(date +'.jpg', ROI)
+			fin = open(date +'.jpg', "rb")
+			#encoded_image = base64.b64encode(fin.read())
+			files={'file': fin}
+
+			try:
+				r = requests.post(url, files=files, data={'number_of_people': len(faces)})
+				print (r.text)
+			finally:
+				fin.close()
+			#cv2.imwrite('ROI.jpg', test)
 			cv2.imwrite('skin.jpg', ROI)
 		except:
 			print("User failed to select an image.")
@@ -55,6 +75,6 @@ class hsv():
 
 		
 if __name__ == "__main__":
-	person = hsv()
+	person = client()
 	person.getImage()
 	
