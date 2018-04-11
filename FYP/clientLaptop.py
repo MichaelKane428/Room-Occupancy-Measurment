@@ -63,9 +63,7 @@ class client():
 	def findperson(self, image):
 		higher = np.array([255,255,255])
 		lower = np.array([0,40,80])
-		print("hello")
 		HSV = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
-		print("hello2")
 		tone = cv2.inRange(HSV, lower, higher)
 		shape = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(40,40))
 		erosion = cv2.erode(tone, shape)
