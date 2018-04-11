@@ -27,7 +27,7 @@ class client():
 				
 				#Opening an image from a file:
 				file = easygui.fileopenbox()
-				image = cv2.imread("image.jpg", 1)
+				image = cv2.imread(file)
 				person = self.findperson(image)
 				
 				#reverse = cv2.bitwise_not(person)
