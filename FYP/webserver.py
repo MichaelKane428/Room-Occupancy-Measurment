@@ -161,6 +161,7 @@ def gallery():
         if request.method == 'POST':
             temp = request.form['datepicker']
             datetime = temp.replace("T", " ")
+            datetime = datetime[0:13]
             query1, query2, latestImages, datetimeImages = createquery(datetime)
 
             if query1 > 0 and query2 > 0:
