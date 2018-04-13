@@ -5,11 +5,8 @@
     course: DT211C
     Date: 12/11/2017
 
-    Introduction:
-
-    Step-by-Step:
-
-    OverView: This is
+    OverView: The purpose of this program is to create a website where a user can
+    view the results of the client application
 
     References:
     https://gist.github.com/yoavram/4351498
@@ -42,7 +39,7 @@ app.secret_key = 'Mikey1ne'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app)
 
-
+# check if the file is a jpg
 def allowedFile(filename):
     return filename[-3:].lower() in ALLOWED_EXTENSIONS
 
@@ -58,14 +55,12 @@ def upload():
         file = request.files['file']
         number_of_people = request.form['number_of_people']
 
-        print(file)
-        print(number_of_people)
-
         if file and allowedFile(file.filename):
             dbcursor, conn = db.login_connection()
 
             filename = file.filename
 
+            # Parse the date time so it can be inserted into the database
             date = filename[0:12]
             time = filename[12:19].replace("-", ":")
             date_time = date+time
@@ -80,7 +75,7 @@ def upload():
             return redirect(url_for("gallery"))
     return render_template("uploadImage.html")
 
-
+# Query the database to check if a user is registered.
 @app.route("/login/", methods=['GET', 'POST'])
 def login():
     error = ''
@@ -112,7 +107,7 @@ def login():
     except Exception as e:
         return str(e)
 
-
+# Register a user and insert their details into the database.
 @app.route("/register/", methods=['GET', 'POST'])
 def register():
     error = ''
@@ -152,7 +147,7 @@ def register():
     except Exception as e:
         return str(e)
 
-
+# The purpose of this function is to query the database and return the data to the rendered webpage.
 @app.route("/gallery/", methods=['GET', 'POST'])
 def gallery():
     error = ''
@@ -183,7 +178,7 @@ def gallery():
     except Exception as e:
         return str(e)
 
-
+# log the user out of the website
 @app.route("/logout/", methods=['GET', 'POST'])
 def logout():
     error = ''
@@ -191,6 +186,7 @@ def logout():
         pass
     return render_template("logout.html", error=error)
 
+# The purpose of this function is to create a query when the webpage is rendered and when a user submits a request.
 def createquery(datetime):
     if datetime == "":
         datetime = '2018-04-04 15'
@@ -200,12 +196,15 @@ def createquery(datetime):
 
     dbcursor, conn = db.login_connection()
 
+    # Query 1 will populate the latest images slide show.
     query1 = dbcursor.execute("SELECT * FROM store_image ORDER BY date_time DESC LIMIT 5")
     latestImages = []
+    # Taken from the above source https://stackoverflow.com/questions/16519385/output-pyodbc-cursor-results-as-python-dictionary
     columns = [column[0] for column in dbcursor.description]
     for row in dbcursor.fetchall():
         latestImages.append(dict(zip(columns, row)))
 
+    # Query2  will populate the date time slideshow
     query2 = dbcursor.execute(query)
     datetimeImages = []
     columns = [column[0] for column in dbcursor.description]

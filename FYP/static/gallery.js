@@ -16,6 +16,8 @@ function getImages(){
     let mean = 0;
     let latestMean = 0;
     let dateMean = 0;
+
+    // Prepare information concerning the images to be rendered on site.
     if(latestImages.paths.length != 0){
         //calculate the mean number of people for both slideshows
         for (let i=0; i < latestImages.paths.length; i++){
@@ -25,6 +27,8 @@ function getImages(){
         latestMean = mean/latestImages.paths.length;
         mean = 0;
     }
+
+    // Prepare information concerning the images to be rendered on site.
     if(datetimeImages.paths.length != 0){
         for (let i=0; i < datetimeImages.paths.length; i++){
             number_of_people = datetimeImages.paths[i].number_of_people;
@@ -32,6 +36,7 @@ function getImages(){
         }
         dateMean = mean/datetimeImages.paths.length;
     }
+
     //This for loop fills the left slideshow with the latest images.
     for (let i=0; i < latestImages.paths.length; i++){
         temp = latestImages.paths[i].path;
