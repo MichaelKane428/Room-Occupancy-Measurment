@@ -194,9 +194,9 @@ def logout():
 def createquery(datetime):
     if datetime == "":
         datetime = '2018-04-04 15'
-        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59' ORDER BY date_time DESC LIMIT 5"
+        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59' ORDER BY date_time DESC"
     else:
-        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59' ORDER BY date_time DESC LIMIT 5"
+        query = "select * from store_image WHERE date_time BETWEEN '" + datetime + ":00:00' AND '" + datetime + ":59:59' ORDER BY date_time DESC"
 
     dbcursor, conn = db.login_connection()
 
